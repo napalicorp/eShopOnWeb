@@ -6,7 +6,7 @@ on:
 
 env:
   AWS_REGION: ap-southeast-2
-  ECR_REPOSITORY: eshop-dev-ecr
+  ECR_REPOSITORY_PREFIX: eshop-dev
 
 permissions:
   contents: read
@@ -41,9 +41,9 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY-web:$IMAGE_TAG -f src/Web/Dockerfile .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY-web:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY-web:$IMAGE_TAG"
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_PREFIX-web:$IMAGE_TAG -f src/Web/Dockerfile .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY_PREFIX-web:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY_PREFIX-web:$IMAGE_TAG"
         
     - name: Build, tag, and push image to Amazon ECR - PubApi
       id: build-pubapi-image
@@ -54,7 +54,7 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY-pubapi:$IMAGE_TAG -f src/PublicApi/Dockerfile .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY-pubapi:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY-pubapi:$IMAGE_TAG"
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_PREFIX-pubapi:$IMAGE_TAG -f src/PublicApi/Dockerfile .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY_PREFIX-pubapi:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY_PREFIX-pubapi:$IMAGE_TAG"
 
